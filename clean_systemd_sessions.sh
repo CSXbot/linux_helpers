@@ -16,7 +16,7 @@ fi
 echo $(date +"%Y-%m-%d %T") "Collecting sessions lists"
 SESSION_FILES=$(find /run/systemd/system -maxdepth 1 -name "session*.scope*")
 SESSION_FILES_COUNT=$(echo "${SESSION_FILES}" | wc -l)
-SESSIONS_LIST=$(/usr/bin/systemctl | grep -P '^session-\d+\.scope' | awk '{print $1}')
+SESSIONS_LIST=$(/usr/bin/systemctl | grep -P '^session-.*?\.scope' | awk '{print $1}')
 SESSIONS_COUNT=$(echo "${SESSIONS_LIST}" | wc -l)
 
 echo $(date +"%Y-%m-%d %T") "Total session files: ${SESSION_FILES_COUNT}"
@@ -46,7 +46,7 @@ for SESSION in $(echo "${SESSIONS_LIST}"); do
 done
 
 echo $(date +"%Y-%m-%d %T") "Updating sessions lists"
-SESSIONS_LIST=$(/usr/bin/systemctl | grep -P '^session-\d+\.scope' | awk '{print $1}')
+SESSIONS_LIST=$(/usr/bin/systemctl | grep -P '^session-.*?\.scope' | awk '{print $1}')
 SESSIONS_COUNT=$(echo "${SESSIONS_LIST}" | wc -l)
 SESSION_FILES=$(find /run/systemd/system -maxdepth 1 -name "session*.scope*")
 SESSION_FILES_COUNT=$(echo "${SESSION_FILES}" | wc -l)
@@ -76,7 +76,7 @@ echo $(date +"%Y-%m-%d %T") "Updating sessions lists for final statistics"
 SESSION_FILES=$(find /run/systemd/system -maxdepth 1 -name "session*.scope*")
 SESSION_FILES_COUNT=$(echo "${SESSION_FILES}" | wc -l)
 SESSIONS_LIST=$(/usr/bin/systemctl)
-SESSIONS_COUNT=$(echo "${SESSIONS_LIST}" | grep -Pc '^session-\d+\.scope')
+SESSIONS_COUNT=$(echo "${SESSIONS_LIST}" | grep -Pc '^session-.*?\.scope')
 
 SESSION_FILES_DELETED=$(expr $SESSION_FILES_COUNT_START - $SESSION_FILES_COUNT)
 SESSIONS_DELETED=$(expr $SESSIONS_COUNT_START - $SESSIONS_COUNT)
